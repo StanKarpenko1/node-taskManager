@@ -3,17 +3,26 @@ import cors from 'cors';
 import connectDB from './db/connect';
 import dotenv from 'dotenv';
 
+
+const notFound = require('./middleware/not-found');
+
 dotenv.config();
 
 const app = express();
+const tasks = require('./routes/tasks');
+const errorHandlerMiddleware = require('./middleware/error-handler')
 
 // Middleware
 app.use(cors({ credentials: true }));
 app.use(express.json());
+app.use(express.static('src/public'));
+
 
 // Routes
-const tasks = require('./routes/tasks');
 app.use('/api/v1/tasks', tasks);
+app.use(notFound); 
+app.use(errorHandlerMiddleware);
+
 
 // Define port and MongoDB connection string
 const port: number = 3000;
