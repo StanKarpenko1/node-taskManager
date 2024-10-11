@@ -4,14 +4,6 @@ const asyncWrapper = require('../middleware/async');
 const { createCustomError, CustomError} = require ('../errors/custom-errors')
 
 
-// class CustomError extends Error {
-//     status?: number;
-//     constructor(message: string, status?: number) {
-//         super(message);
-//         this.status = status;
-//     }
-// }
-
 const getAllTasks = asyncWrapper(async (req: Request, res: Response) => {
     const tasks = await Task.find({});
     res
@@ -41,7 +33,8 @@ const getTask = asyncWrapper(async (req: Request, res: Response, next: NextFunct
     const { id: taskId } = req.params
     const task = await Task.findOne({ _id: taskId.trim() });
     if (!task) {
-        return next(createCustomError(` No task with id: ${taskId}`));
+        
+        return next(createCustomError(` No task with id: ${taskId}`, 404) );
     }
     res
         .status(200)
@@ -52,7 +45,7 @@ const deleteTask = asyncWrapper(async (req: Request, res: Response, next: NextFu
     const { id: taskId } = req.params
     const task = await Task.findOneAndDelete({ _id: taskId.trim() });
     if (!task) {
-        return next(createCustomError(` No task with id: ${taskId}`));
+        return next(createCustomError(` No task with id: ${taskId}`, 404) );
 
     }
     res.status(200).json({
@@ -72,7 +65,7 @@ const updateTask = asyncWrapper(async (req: Request, res: Response, next: NextFu
     )
 
     if (!task) {
-        return next(createCustomError(` No task with id: ${taskId}`));
+        return next(createCustomError(` No task with id: ${taskId}`, 404) );
     }
 
     res.status(200).json({

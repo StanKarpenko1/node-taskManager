@@ -25,7 +25,7 @@ app.use(errorHandlerMiddleware);
 
 
 // Define port and MongoDB connection string
-const port: number = 3000;
+const port = process.env.port || 3000;
 const mongoURL = process.env.MONGO_URL;
 
 // Start the server

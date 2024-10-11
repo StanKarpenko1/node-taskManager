@@ -9,14 +9,15 @@ const errorHandlerMiddleware = (
     next: NextFunction,
 
 ) => {
-    if (err instanceof createCustomError){
+    if (err instanceof CustomError){
         return res.status(err.statusCode).json( {msg: err.message} )
     }
 
      res.status(500).json({
         success: false,
-        message: `Something went wrong`
+        message: err.message
     });
 };
+
 
 module.exports = errorHandlerMiddleware
