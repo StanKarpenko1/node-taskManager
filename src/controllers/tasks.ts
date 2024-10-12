@@ -18,7 +18,15 @@ const getAllTasks = asyncWrapper(async (req: Request, res: Response) => {
 
 })
 
-const createTask = asyncWrapper(async (req: Request, res: Response) => {
+const createTask = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+    const { name } = req.body
+
+    const existingTask = await Task.findOne({name})
+
+    if (existingTask) {
+        return next(createCustomError(`This task already exist in your list`, 400) );
+    }
+
     const task = await Task.create(req.body);
     res
         .status(201)

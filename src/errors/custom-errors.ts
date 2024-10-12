@@ -1,15 +1,21 @@
 
 
+export interface CustomErrorType extends Error {
+    statusCode: number;
+}
+
 class CustomError extends Error {
-    status?: number;
-    constructor(message: string, status?: number) {
+    statusCode: number;
+
+    constructor(message: string, statusCode: number) {
         super(message);
-        this.status = status    ;
+        this.statusCode = statusCode;
     }
 }
 
-const createCustomError = (msg: string, statusCode: number ): CustomError  => {
-    return new CustomError( msg, statusCode )
-}
+const createCustomError = (msg: string, statusCode: number): CustomError => {
+    return new CustomError(msg, statusCode);
+};
 
-module.exports = { CustomError, createCustomError }
+module.exports = {CustomError, createCustomError }
+// export  { CustomError, createCustomError };

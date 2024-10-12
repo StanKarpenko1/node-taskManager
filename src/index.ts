@@ -3,7 +3,6 @@ import cors from 'cors';
 import connectDB from './db/connect';
 import dotenv from 'dotenv';
 
-
 const notFound = require('./middleware/not-found');
 
 dotenv.config();
