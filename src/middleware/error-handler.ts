@@ -1,18 +1,19 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 const { createCustomError, CustomError} = require ('../errors/custom-errors')
 import { CustomErrorType } from '../errors/custom-errors';
 
-const errorHandlerMiddleware = (
+const errorHandlerMiddleware  = (
     err: CustomErrorType,
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction, 
 
 ) => {
     
     const errorStatus = err.statusCode || 500;
     
-    if (err instanceof CustomError){
+    // if (err instanceof CustomError){
+    if (errorStatus !== 500) { 
         return res.status(errorStatus).json( {msg: err.message} )
     }
 
